@@ -1,10 +1,12 @@
 <?php
 $resultado = 0;
-for($i = 1;$resultado < 1000; $i++)
-{
-    if ($resultado = $resultado + $i < 1000) {
-        $resultado = $resultado + $i;
-        echo $i."<br>";
+$contadornumeros = 0;
+for ($i = 1; $i < 1000; $i++) {
+    if (($resultado + $i) < 1000) {
+        $resultado += $i;
+        $contadornumeros  += 1;
+        echo "Se sumo el " . $i . "<br>";
     }
 }
-echo $resultado;
+echo "Se cumo una cantidad de ".$contadornumeros." numeros <br>";
+echo "El resultado de la suma es de: ".$resultado;
