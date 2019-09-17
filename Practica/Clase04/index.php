@@ -1,5 +1,7 @@
 <?php
-include "./objeto.php ";
+include_once "./objeto.php ";
+include_once "./archivo.php";
+include_once "./persona.php";
 $personas = array();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["nombre"]) && isset($_POST["apellido"]) && isset($_POST["legajo"])) {
@@ -8,31 +10,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $personas = Persona::CargarArray($base);
         }
         $persona = new Persona($_POST["nombre"], $_POST["apellido"], $_POST["legajo"]);
-        array_push($personas, $persona);
         switch ($_POST["accion"]) {
             case 'guardar':
+                if (isset($_FILES["imagen"])) {
+                    $persona->imagen = Archivo::GuardarArchivo($_FILES["imagen"], "./imagenes/", $persona->legajo);
+                }
+                array_push($personas, $persona);
                 Objeto::Guardar("./archivo.json", $personas);
                 break;
-            case 'borrar':
-                Objeto::Borrar("./archivo.json", $personas);
-                break;
             case 'modificar':
-                Objeto::Modificar("./archivo.json", $personas);
+                Objeto::Modificar("./archivo.json", $personas, $persona);
                 break;
-
-            default:
-                # code...
+            case 'borrar':
+                Objeto::Borrar("./archivo.json", $personas, $persona);
                 break;
         }
     }
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $personas = Objeto::Listar("./archivo.json");
-    echo $personas;
 }
 
 /*if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $personas = Objeto::Listar("./archivo.txt",$variables);    
     echo json_encode($personas);
 }*/
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $personas = Objeto::Listar("./archivo.json");
+    echo $personas;
+}

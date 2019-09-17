@@ -15,30 +15,36 @@ class Objeto
         }
         return json_encode($array);
     }
-    
+
     public static function Guardar($destino, $objeto)
-    {        
-            $archivo = fopen($destino, "w");
-            fwrite($archivo, json_encode($objeto));
-            fclose($archivo);       
+    {
+        $archivo = fopen($destino, "w");
+        fwrite($archivo, json_encode($objeto));
+        fclose($archivo);
     }
-    
-    public static function Modificar($destino, $objetos,$objeto)
-    {         
-        for ($i = 0; $i < count($objetos); $i++) {
-            if ($objetos[$i]->Equals($objeto)) {
-                array_splice($objetos, $i, 1, $objeto);
+
+    public static function Modificar($destino, $objetos, $objeto)
+    {
+        $i = 0;
+        foreach ($objetos as $value) {
+            if ($value->Equals($objeto)) {
+                array_splice($objetos, $i, 1, array($objeto));
+                break;
             }
+            $i++;
         }
-        Objeto::Guardar($destino,$array);
+        Objeto::Guardar($destino, $objetos);
     }
 
     public static function Borrar($destino, $objetos, $objeto)
-    {        
-        for ($i = 0; $i < count($objetos); $i++) {
-            if ($objetos[$i]->Equals($objeto)) {
+    {
+        $i = 0;
+        foreach ($objetos as $value) {
+            if ($value->Equals($objeto)) {
                 array_splice($objetos, $i, 1);
+                break;
             }
+            $i++;
         }
         Objeto::Guardar($destino, $objetos);
     }
