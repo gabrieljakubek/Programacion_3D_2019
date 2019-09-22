@@ -19,6 +19,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Objeto::Guardar("./archivo.json", $personas);
                 break;
             case 'modificar':
+                $raiz ="";
+                for ($i=0; $i < count($personas); $i++) {
+                    if ($persona->Equals($personas[$i])) {
+                        if (isset($_FILES["imagen"])) {
+                            $expl = explode("/", $personas[$i]->imagen);
+                            for ($j=0; $j < count($expl)-1; $j++) {
+                                $raiz =$raiz.$expl[$j]."/";
+                            }
+                            Archivo::BackUpFoto($raiz,"./BackUp/", $expl[count($expl)-1]);
+                            $persona->imagen = Archivo::GuardarArchivo($_FILES["imagen"], "./imagenes/", $persona->legajo);
+                        } else {
+                            $persona->imagen = $personas[$i]->imagen;
+                        }
+                    }
+                }
                 Objeto::Modificar("./archivo.json", $personas, $persona);
                 break;
             case 'borrar':
@@ -29,10 +44,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 /*if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $personas = Objeto::Listar("./archivo.txt",$variables);    
+    $personas = Objeto::Listar("./archivo.txt",$variables);
     echo json_encode($personas);
 }*/
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $personas = Objeto::Listar("./archivo.json");
-    echo $personas;
+    $raiz = "";
+    $base = json_decode(Objeto::Listar("./archivo.json"));
+    if (count($base) > 0) {
+        $personas = Persona::CargarArray($base);
+    }
+    echo json_encode($personas);
+    for ($i=0; $i < count($personas); $i++) {
+        var_dump($expl = explode("/", $personas[$i]->imagen));
+        for ($j=0; $j < count($expl)-1; $j++) {
+            $raiz =$raiz.$expl[$j]."/";
+        }
+    }
+    echo($raiz);
 }
