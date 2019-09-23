@@ -48,4 +48,13 @@ class Objeto
         }
         Objeto::Guardar($destino, $objetos);
     }
+
+    public static function GenerarRaiz($explode)
+    {
+        $raiz ="";
+        for ($j=0; $j < count($explode)-1; $j++) {
+            $raiz =$raiz.$explode[$j]."/";
+        }
+        return $raiz;
+    }
 }
