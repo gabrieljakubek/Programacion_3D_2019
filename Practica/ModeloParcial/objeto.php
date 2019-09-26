@@ -59,4 +59,29 @@ class Objeto
         }
         return $raiz;
     }
+
+    public static function Existe($ruta, $objeto, $variable)
+    {
+        $base = Objeto::Listar($destino);
+        $retorno = false;
+        foreach ($base as $value) {
+            if ($value->$variable == $objeto->$variable) {
+                $retorno = true;
+                break;
+            }
+        }
+        return $retorno;
+    }
+
+    public static function Encontrar($ruta, $valor, $variable)
+    {
+        $base = Objeto::Listar($destino);
+        $retorno = array();
+        foreach ($base as $value) {
+            if ($value->$variable == $valor) {
+                array_push($retorno, $value);
+            }
+        }
+        return $retorno;
+    }
 }

@@ -23,12 +23,7 @@ class Manejador
     public static function BuscarAlumnosApellido($apellido)
     {
         $retorno = array();
-        $alumnos = Alumno::CargarArray();
-        foreach ($alumnos as $value) {
-            if ($value->BuscarApellido($apellido)) {
-                array_push($retorno, $value);
-            }
-        }
+        $retorno= Objeto::Encontrar("./alumnos.json",$apellido,"apellido");
         if (count($retorno) > 0) {
             return json_encode($retorno);
         } else {
