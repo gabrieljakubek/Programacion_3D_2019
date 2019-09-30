@@ -24,10 +24,10 @@ class Inscribir{
         return $retorno;
     }
 
-    public static function CargarArray()
+    public static function CargarArray($ruta)
     {
         $inscripsiones = array();
-        $base = json_decode(Objeto::Listar("./inscripsion.json"));
+        $base = json_decode(Objeto::Listar($ruta));
         if (count($base) > 0) {
             for ($i = 0; $i < count($base); $i++) {
                 array_push($inscripsiones, new Alumno($base[$i]->nombre, $base[$i]->apellido, $base[$i]->email, $base[$i]->materia, $base[$i]->codigo));

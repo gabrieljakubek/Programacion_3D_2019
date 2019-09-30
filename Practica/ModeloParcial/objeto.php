@@ -25,10 +25,10 @@ class Objeto
 
     public static function Modificar($destino, $objeto)
     {
-        $objetos=Objeto::Listar($destino);
+        $objetos = json_decode(Objeto::Listar($destino));
         $i = 0;
         foreach ($objetos as $value) {
-            if ($value->Equals($objeto)) {
+            if ($objeto->Equals($value)) {
                 array_splice($objetos, $i, 1, array($objeto));
                 break;
             }
@@ -39,10 +39,10 @@ class Objeto
 
     public static function Borrar($destino, $objeto)
     {
-        $objetos=Objeto::Listar($destino);
+        $objetos = Objeto::Listar($destino);
         $i = 0;
         foreach ($objetos as $value) {
-            if ($value->Equals($objeto)) {
+            if ($objeto->Equals($value)) {
                 array_splice($objetos, $i, 1);
                 break;
             }
@@ -53,16 +53,16 @@ class Objeto
 
     public static function GenerarRaiz($explode)
     {
-        $raiz ="";
-        for ($j=0; $j < count($explode)-1; $j++) {
-            $raiz =$raiz.$explode[$j]."/";
+        $raiz = "";
+        for ($j = 0; $j < count($explode) - 1; $j++) {
+            $raiz = $raiz . $explode[$j] . "/";
         }
         return $raiz;
     }
 
     public static function Existe($ruta, $objeto, $variable)
     {
-        $base = Objeto::Listar($destino);
+        $base = json_decode(Objeto::Listar($ruta));
         $retorno = false;
         foreach ($base as $value) {
             if ($value->$variable == $objeto->$variable) {
@@ -75,10 +75,10 @@ class Objeto
 
     public static function Encontrar($ruta, $valor, $variable)
     {
-        $base = Objeto::Listar($destino);
+        $base = json_decode(Objeto::Listar($ruta));
         $retorno = array();
         foreach ($base as $value) {
-            if ($value->$variable == $valor) {
+            if (strtolower($value->$variable) == strtolower($valor)) {
                 array_push($retorno, $value);
             }
         }

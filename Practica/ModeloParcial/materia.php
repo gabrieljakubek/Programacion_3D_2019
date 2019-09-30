@@ -24,9 +24,9 @@ class Materia
         return $retorno;
     }
 
-    public static function CargarArray(){
+    public static function CargarArray($ruta){
         $materias = array();
-        $base = json_decode(Objeto::Listar("./materias.json"));
+        $base = json_decode(Objeto::Listar($ruta));
         if (count($base) > 0) {
             for ($i = 0; $i < count($base); $i++) {
                 array_push($materias, new Materia($base[$i]->materia, $base[$i]->codigo, $base[$i]->cupo, $base[$i]->aula));

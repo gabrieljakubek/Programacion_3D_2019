@@ -7,21 +7,24 @@ class Archivo
             mkdir($destino);
         }
         $archivoTmp = $archivo["tmp_name"];
-        $ruta = $destino.Archivo::GenerarNombre($archivo,$nombre);
-        $rta = move_uploaded_file($archivoTmp, $ruta);
+        $nombreFormato = Archivo::GenerarNombre($archivo,$nombre);
+        $rta = move_uploaded_file($archivoTmp, $destino.$nombreFormato);
         if (!$rta) {
-            $nombre = null;
+            $nombreFormato = null;
         }
-        return $nombre;
+        return $nombreFormato;
     }
 
-    private static function GenerarNombre($archivo, $nombre)
+    public static function GenerarNombre($archivo, $nombre)
     {
         return $nombre . "." . explode("/", $archivo["type"])[1];
     }
-    public static function BackUpArchivo($raiz, $destino,$nombre)
+    public static function BackUpArchivo($raiz, $nombreOriginal,$destino,$nombreBackUp)
     {
-        copy($raiz.$nombre,$destino.$nombre);
+        if (!file_exists($destino) ){
+            mkdir($destino);
+        }
+        copy($raiz.$nombreOriginal,$destino.$nombreBackUp);
     }
 
     public static function BorrarArchivo($raiz,$nombre)

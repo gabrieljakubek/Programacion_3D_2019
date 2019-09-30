@@ -33,10 +33,10 @@ class Alumno
         return $retorno;
     }
 
-    public static function CargarArray()
+    public static function CargarArray($ruta)
     {
         $alumnos = array();
-        $base = json_decode(Objeto::Listar("./alumnos.json"));
+        $base = json_decode(Objeto::Listar($ruta));
         if (count($base) > 0) {
             for ($i = 0; $i < count($base); $i++) {
                 array_push($alumnos, new Alumno($base[$i]->nombre, $base[$i]->apellido, $base[$i]->email, $base[$i]->foto));
