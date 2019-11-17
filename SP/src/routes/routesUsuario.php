@@ -12,5 +12,7 @@ return function (App $app) {
      $app->group('/usuario', function () {   
          
         $this->post('/', usuarioControler::class.':CargarUno');
+        $this->get('/{email}', usuarioControler::class.':TraerUno');
+        $this->get('/', usuarioControler::class.':TraerTodos');
     });
 };

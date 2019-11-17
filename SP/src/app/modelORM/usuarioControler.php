@@ -24,15 +24,13 @@ class usuarioControler implements IApiControler
   public function TraerTodos($request, $response, $args)
   {
     //return cd::all()->toJson();
-    $todosLosCds = cd::all();
-    $newResponse = $response->withJson($todosLosCds, 200);
+    $usuarios = usuario::traerUsuarios();
+    $newResponse = $response->withJson($usuarios, 200);
     return $newResponse;
   }
   public function TraerUno($request, $response, $args)
   {
-    $body = $request->getParsedBody();
-    $usuario = usuario::select("email","tipo")->where('email',$body['email'])->get();
-
+    $usuario = usuario::traerUsuario($args['email']);
     $newResponse = $response->withJson($usuario, 200);
     return $newResponse;
   }
@@ -44,9 +42,17 @@ class usuarioControler implements IApiControler
     $usuario->email = $body["email"];
     $usuario->clave = $body["clave"];
     $usuario->tipo = $body["tipo"];
-    return self::TraerUno($request,$response,$args);
-    /* $newResponse = $response->withJson("Plancho", 200);
-    return $newResponse; */
+    $validacion = usuario::traerUsuario($usuario["clave"]);
+    if(count($validacion) ==0)
+    {
+      $respuesta = "Plancho";
+      $usuario->save();
+    }
+    else {
+      $respuesta = "No plancho";
+    }
+    $newResponse = $response->withJson( $respuesta, 200);
+    return $newResponse;
   }
   public function BorrarUno($request, $response, $args)
   {
