@@ -14,5 +14,6 @@ return function (App $app) {
         $this->post('/', usuarioControler::class.':CargarUno');
         $this->get('/{email}', usuarioControler::class.':TraerUno');
         $this->get('/', usuarioControler::class.':TraerTodos');
+        $this->post('/login', usuarioControler::class.':LogIn');
     });
 };
