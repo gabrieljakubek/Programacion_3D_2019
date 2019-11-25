@@ -15,13 +15,13 @@ return [
 
         // Monolog settings
         'logger' => [
-            'name' => 'UTN FRA LOGGER',
+            'name' => 'LOGGER',
             'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
          // Monolog settings
         'IPlogger' => [
-            'name' => 'UTN FRA LOGGER',
+            'name' => 'LOGGER',
             'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/ip.log',
             'level' => \Monolog\Logger::DEBUG,
         ],

@@ -38,4 +38,28 @@ class validaciones
         }
         return $response;
     }
+    public static function validarAlumno($request, $response, $next)
+    {
+        $token = $request->getHeader('token');
+        $data = AutentificadorJWT::ObtenerData($token[0]);
+        if ($data[0]->tipo ===1) {
+            $response = $next( $request, $response);
+        } else {
+            $mensaje = ["mensaje" => 'Solamente para alumnos'];
+            $response = $response->withJson($mensaje, 500);
+        }
+        return $response;
+    }
+    public static function validarProfesor($request, $response, $next)
+    {
+        $token = $request->getHeader('token');
+        $data = AutentificadorJWT::ObtenerData($token[0]);
+        if ($data[0]->tipo ===2) {
+            $response = $next( $request, $response);
+        } else {
+            $mensaje = ["mensaje" => 'Solamente para Profesores'];
+            $response = $response->withJson($mensaje, 500);
+        }
+        return $response;
+    }
 }

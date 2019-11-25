@@ -4,17 +4,23 @@ namespace App\Models\ORM;
 class usuario extends \Illuminate\Database\Eloquent\Model
 {
 
-    public static function traerUsuario($valor, $validacion = false)
+    public static function traerUsuario($valor, $validacion = 2)
     {
-        if ($validacion === true) {
-            $respuesta = self::select("id", "email","tipo")
+        if ($validacion === 1) {
+            $respuesta = self::select("id", "email", "tipo")
                 ->where('email', $valor["email"])
                 ->where('clave', $valor['id'])
                 ->get();
-        } else {
+        } else if ($validacion === 2) {
             $respuesta = self::select("id", "email", "tipo")
                 ->where('email', $valor)
                 ->get();
+        } else if ($validacion === 3) {
+            $respuesta = self::select("id", "email", "tipo")
+                ->where('id', $valor)
+                ->get();
+        } else {
+            $respuesta = "Opcion no valida";
         }
         return $respuesta;
     }

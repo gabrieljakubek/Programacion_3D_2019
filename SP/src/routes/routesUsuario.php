@@ -15,5 +15,6 @@ return function (App $app) {
         $this->get('/{email}', usuarioControler::class.':TraerUno');
         $this->get('/', usuarioControler::class.':TraerTodos');
         $this->post('/login', usuarioControler::class.':LogIn');
+        $this->post('/{legajo}', usuarioControler::class.':ModificarUno');
     });
 };
